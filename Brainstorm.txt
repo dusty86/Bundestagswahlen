@@ -1,0 +1,48 @@
+Primärszenarien: Wahllokal, Auswertung
+
+
+Wahllokal (Primärszenario A):
+Im Wahllokal stehende Automaten kennen nur das Wahllokal in dem sie stehen und greifen darüber auf Direktkandidaten und Landeslisten zu.
+Benutzerrolle als Wähler kommt zum Wahlbezirk
+Authentifizierung extern vom Wahlhelfer (Menschen)
+Autorisierung am Wahlautomaten (Freischaltung durch Code auf Zettel oder Zentral vom Wahlhelfer (mitzählen des Systems!))
+Digitaler Wahlzettel (entsprechend dem Papierformat) auf einem Touchscreen mit Erst- und Zweitstimme zusammen (Angewöhnung der Akzeptanz der Wähler)
+Es ist nur möglich eine oder keine Stimme als Erststimme abzugeben und das selbige gilt für die Zweitstimme.
+Es ist möglich zu jeder Zeit, vor Klicken der Bestätigung, die Erst- und Zweitstimmen jeweils zu entfernen oder zu ändern.
+Ein Bestätigungsknopf führt dazu, dass die ausgewählte Erst- und Zweitstimme deutlich dem Wähler dargestellt werden.
+Der Wähler kann dies bestätigen, dann gilt der Stimmzettel als abgegeben und der Wahlzettel ist nicht mehr zu sehen.
+Der Wähler kann die Bestätigung abbrechen, dann kommt er zurück zum Wahlzettel und die vorige Auswahl bleibt bestehen.
+Es gibt ein Zeitfenster von ca. 20-30 Sekunden. Trifft der Wähler keine Entscheidung, so gelten beide Stimmen als ungültig.
+Die Erst- und Zweitstimmen werden abgespeichert (Kandidat/Partei und Gültigkeit OHNE Zeitstempel), eine Zurückverfolgung auf den Wähler ist ausgeschlossen.
+
+-- Eine Auszählung im Wahllokal ist nicht mehr nötig aufgrund einer zentralen Echtzeit-Datenbank --
+
+Datenauswertung (Primärszenario B):
+Es sollen die Gesamtprozentzahlen aller Parteien abrufbar sein (akkumuliert gezählt)
+	Dazu der Vergleich von den Vorjahren (gespeichert)
+Es soll auf eine Anfrage hin die Gesamtbelegung des Deutschen Bundestages abrufbar sein (Lagu€-Schepers).
+Dazu gehören: 
+	Platzverteilung an die Parteien (Lagu€-Schepers)
+	Platzverteilung an die Bundesländer innerhalb der Partei (Lagu€-Schepers)
+	Direktmandate mit Namen (Mehrheitswahl innerhalb Wahlkreise)
+	Listenkandidaten mit Namen (Auffüllung der Sitze)
+	In allen Kategorien (Gesamtbild bis Mandate) sollen Vergleiche mit ehem. Bundestagen abrufbar sein.
+	Erhaltene Stimmen für jeden Direktkandidaten (Summe innerhalb W'kreis)
+	Erhaltene Stimmen für jede Landesliste auf Landesebene bis Kreisebene (Summe)
+	Zusätzliche Daten bezüglich nicht-eingezogenen Parteien ( < 5 % )
+Die Wahlbeteiligung der BRD, Länder und Wahlkreise soll einzeln abrufbar sein
+	Getrennt auch die Anzahl Erststimmen (Bund bis Wahlkreis)
+	Getrennt auch die Anzahl Zweitstimmen (Bund bis Wahlkreis)
+	Getrennt auch die Anzahl ungültiger Erst- bzw. Zweitstimmen (Bund bis Wahlkreis)
+	
+Nicht-Funktionale Anforderungen:
+	- Skalierbar auf alle Wahlberechtigte für Stimmabgabe
+	- Mehrfachzugriffsverwaltung mit Blick auf Wahldynamiken (Wann ist der Peak beim Wählen und beim Abrufen der Daten, Uhrzeiten/Tageszeiten)
+	- Robustheit 1: Bei unvorhergesehenem Verhalten muss es möglich sein Einzugreifen (Wahllokalebene)
+	- Robustheit 2: Die Daten werden unverfälscht abgerufen
+	- Verschiedene Sichten: Es gibt Systemadministratoren, die auf die Daten direkt lesend zugreifen können falls Probleme auftreten (z.B. komische Abrufwerte), andere Gruppen bekommen feste Sichten zugeteilt
+	- Datenschutz: Es ist unmöglich die Stimme auf den Wähler zurückzuführen, Es ist unmöglich Daten zu schreiben, außer zu den Wahlzeiten und in den Wahllokalen. Ein Abrufen der Daten ist erst nach Schließen der Wahllokale möglich.
+	- Persistenz: Die Wahlergebnisse sind langfristig gespeichert und abrufbar
+	- Datensicherheit: Während der Wahl werden die Daten als Backup periodisch auf mehreren geografisch Verteilten Servern gesichert. Bei Ausfall muss sofort reagiert werden können und das Geschehen dokumentiert werden.
+	- Das Wahlsystem muss den gesetzlichen Anforderungen entsprechen
+	- Wartbarkeit: Das System soll erweiterbar sein für ggf. Gesetzesänderungen
