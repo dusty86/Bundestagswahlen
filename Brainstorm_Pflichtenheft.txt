@@ -1,0 +1,78 @@
+Zielsetzung
+
+Muss
+Funktional
+ - Software zur elektronischen Stimmmabgabe (Ablauf der Stimmabgabe)
+	- Beinhaltet Authentifizierung und Authorisierung
+	- Maximal eine Erst- und Zweitstimme pro Wähler sichergestellt
+ - Schnittstelle zur Einpflegung von Stimmmengen im Fall von Neuzählungen oder nicht-elektronischer Stimmabgabe
+	- Gesetzlich vorgegebene Dokumentation bei Veränderungen
+ - Persistente Speicherung der Daten nach Klassendiagramm (explizit auflisten)
+	- Erstimmen pro Wahlbezirk mit Gültigkeit
+	- Zweitstimmen pro Wahlbezirk mit Gültigkeit
+	- Kandidaten nach Partei, Wahlbezirk und Landesliste
+	- Mandate mit Status Überhangmandat oder nicht
+	- Landeslisten pro Bundesland
+	- Wahlkreise für die aktuelle Wahl
+	- Anzahl abgegebener Stimmen und Wahlberechtigte pro Wahlbezirk	
+ - Abruf und Aufbereitung der Daten für Wahlanalysen und insbes. Wahlergebnisse (online)
+	- unterschiedliche Ansichten, je nach Benutzerrolle
+	- Prozente pro Partei (Bund) mit Vergleich zum Vorjahr
+	- Prozente pro Partei (Bundesland)
+	- Sitzverteilung der Parteien des Deutschen Bundestages mit Vergleich zum Vorjahr
+	- Mandate nach Namen und Partei (gekennzeichnete Überhangmandate)
+	- Wahlbeteiligung in %
+	
+Nicht-Funktional
+- Skalierbarkeit für Wahldynamiken am Wahltag (Wählen und Anfragen)
+- Mehrfachzugriffsverwaltung für alle Beteiligten Benutzerrollen (Use-Case Diagramm)
+- Datenschutz
+	- keine Zurückführung der Stimme auf den Wähler möglich
+	- keine unerlaubten Zugriffe auf die Daten (insbes. vor Schließen der Wahllokale)
+- Datensicherheit durch denzentrale Backups auf mehreren Servern
+	- Recovery bei Datenverlust
+- Möglichst einfache Bedienung des Systems um rechtliche Schritte auszuschließen
+- Zeitliche Zugriffsbeschränkung
+	- schreibend nur zu Öffnungszeiten der Wahllokale (außer Bundeswahlleiter)
+	- lesend erst ab Schließung des letzten Wahllokals
+
+
+Soll
+Funktional
+- Software zur elektronischen Stimmabgabe
+	- Bestätigung vor endgültiger Stimmabgabe
+- Simulation von Wahlen durch Erzeugung randomisierter Stimmen
+- Dezentrale Datenbank zur Vermeidung eines single point of failure
+ - Zusammenführen der Wahlergebnisse in Zentrale Datenbank
+- Abruf von weiteren Wahlanalysen
+	- Prozente pro Partei (Bundesland) Vergleich zum Vorjahr
+	
+Nicht-Funktional
+- Bei Gesetzesänderungen erweiterbar um neue Funktionen
+	- innerhalb einer Wahlperiode
+
+
+Kann
+Funktional
+- Abruf von weiteren Wahlanalysen
+	- Vergleich zu der Wahlbeteiligung in Vorjahren
+	- Bei anderen Ergebnisse vergleich zu verfügbaren Vorjahren
+	
+Nicht funktional
+- Technische Unterstützung direkt im Wahllokal
+- Schulung von Personal in der Verwendung der Wahldatenbank
+
+Nicht
+- Software zur Stimmabgabe kann insbes. nicht verwendet werden
+	- um Auswertungen jeglicher Art zu erhalten
+	- um Kandidaten und Landeslisten zu verwalten
+	- aus einem anderen System, als das für die Wahllokale vorgesehene
+- Das System kann nicht verwendet werden um von zu Hause zu wählen
+	- insbes. müssen Briefwähler wie gehabt wählen
+- Es können mit dem System keinerlei Hochrechnungen gemacht werden
+	- vor, während oder nach der Wahl
+- Es können mit dem System keinerlei weitere Umfragen gestartet werden
+- Das System ist ausschließlich für die Deutschen Bundestagswahlen ausgelegt und kann nicht in einem anderen Land verwendet werden
+- Für gesetzliche Begebenheiten ist der Kunde verantwortlich dies zureichend zu Kommunizieren
+
+- Das Wahlsystem und die Datenbank schließt keinerlei Funktionalität ein, die nicht in den Anforderungen des Pflichtenhefts angeführt sind.
