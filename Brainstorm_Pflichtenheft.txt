@@ -56,7 +56,7 @@ Kann
 Funktional
 - Abruf von weiteren Wahlanalysen
 	- Vergleich zu der Wahlbeteiligung in Vorjahren
-	- Bei anderen Ergebnisse vergleich zu verfügbaren Vorjahren
+	- Bei anderen Ergebnisse Vergleich zu verfügbaren Vorjahren
 	
 Nicht funktional
 - Technische Unterstützung direkt im Wahllokal
@@ -65,6 +65,7 @@ Nicht funktional
 Nicht
 - Software zur Stimmabgabe kann insbes. nicht verwendet werden
 	- um Auswertungen jeglicher Art zu erhalten
+	- weitere Informationen (wie die Kandidaten anderer Bundesländer) darzustellen
 	- um Kandidaten und Landeslisten zu verwalten
 	- aus einem anderen System, als das für die Wahllokale vorgesehene
 - Das System kann nicht verwendet werden um von zu Hause zu wählen
