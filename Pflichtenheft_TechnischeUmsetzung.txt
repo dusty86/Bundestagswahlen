@@ -1,0 +1,86 @@
+Im Zuge des Softwareprojekts 'Bundestagswahlen' werden folgende Softwarekomponenten entwickelt:
+
+
+	**Backend**
+
+	Komponenten zur Verarbeitung von Benutzereingaben (Managed Beans):
+		- VotingController
+		  Nimmt jegliche Anweisungen bzgl. Stimmabgabe, Änderung von bereits verbuchten Stimmen und Bulk-Import von Seiten des Benutzers entgegen und
+		  leitet diese entsprechend an die Komponente VotingDAO bzw. VotingBulkImporterService weiter. Das Ergebnis wird an die Frontend-Komponente
+		  des entsprechenden Benutzers weitergegeben.		  
+		  
+		- AnalysisController
+		  Nimmt jegliche Anweisungen bzgl. Auswertung der Wahlergebnisse entgegen und leitet diese an den AnalysisService weiter. Die Ergebnisse
+		  werden wie gewünscht aufbereitet und der AnalysisView bzw. ExtendedAnalysisView zur Anzeige weitergereicht.
+		
+		- SimulationController
+		  Nimmt die Anweisung entgegen, Simulationsdaten für Testzwecke zu generieren und leitet diese dem SimulationService weiter.
+		
+		Die Controller-Instanzen sind zudem auch dafür zuständig, eventuelle Fehlermeldungen dem Benutzer aufzubereiten und mitzuteilen.
+		
+	Komponenten zur Verarbeitung/Aufbereitung von Daten:
+		- AnalysisService
+		  Zieht die relevanten Daten zur Wahl über die Komponente VotingDAO und aggregiert diese entsprechend der gewünschten Auswertungen.
+		  
+		- SimulationService
+		  Generiert für Testzwecke randomisiert Wahlergebnisse und schreibt diese über die Komponente VotingDAO in die Datenbank.
+		
+		- VotingBulkImporterService
+		  Nimmt eine semistrukturierte CSV-Datei, welche Wahlstimmen beinhaltet, entgegen. Nach erfolgreichem Parsen und Validieren werden die Daten über
+		  die Komponente VotingDAO in die Datenbank geschrieben.
+
+	Model/Domain Klassen zur Abbildung der Speicherstrukturen:
+		- Gemäß UML-Klassendiagramm
+			
+	Komponenten für Datenbankzugriff: (DAO's)
+		- VotingDAO
+		  Bietet eine schreibberechtigte Schnittstelle zur Datenbank (für Stimmen)
+		  
+		- AnalysisDAO
+		  Bietet eine leseberechtigte Schnittstelle zur Datenbank (für Wahlergebnisse)
+	
+	
+	**Frontend**
+	
+		- VotingHomeView
+		  Startanzeige für die Wahlmaschine
+		  
+		- VotingView
+		  Anzeige des Wahlzettels
+		  
+		- VotingConfirmationView
+		  Bestätigungsanzeige direkt nach Stimmabgabe
+		  
+		- VotingBulkImporterView
+		  Anzeige mit Uploadmöglichkeit einer CSV-Datei, welche Stimmen zur Wahl beinhaltet
+		
+		- VotingUpdateView
+		  Listenansicht der entsprechenden Stimmen mit Möglichkeit zur Abänderung durch selektieren der entsprechenden Stimme
+		
+		- AnalysisView
+		  Basisansicht für aggregierte und ausgewertete Wahlergebnisse
+		
+		- ExtendedAnalysisView
+		  Erweiterte Ansicht zur Anzeige von aggregierten und ausgewerteten Wahlergebnissen
+		
+		- SimulationControlView
+		  Benutzerschnittstelle zur Generierung randomisierter Simulationsdaten
+	
+
+Die Implementierung der Software für die Bundestagswahlen wird anhand folgender Technologien und Frameworks umgesetzt und unterstützt:
+	
+	- Datenbank: MySQL Server 5.5 (http://dev.mysql.com/downloads/mysql/)
+	- Web Engine/Server: Apache Tomcat 7.0.8 (http://tomcat.apache.org/download-70.cgi)
+	- Backend: Java EE 1.6 (http://www.oracle.com/technetwork/java/javaee/downloads/index.html), Spring Framework (http://www.springsource.org/spring-framework/download), Apache Commons (http://commons.apache.org/)
+	- Frontend: Java Server Faces 2.0 (http://javaserverfaces.java.net/download.html), Openfaces (http://openfaces.org/downloads/)
+
+	
+Glossar:
+	Backend -> Teil der Applikation, der Befehle unsichtbar von der Benutzerschnittstelle im Hintergrund ausführt und den Applikationsablauf steuert.
+	Bulk Import -> Importfunktionalität von großen Datenmengen durch einen homogenen Applikationsablauf.
+	CSV-Datei -> Datei mit semistrukturierten Dateninhalt: Eine Zeile steht jeweils für einen Datensatz und die entsprechenden Attribute werden durch Kommata fest voneinander getrennt (CSV = Comma Separated Value).
+	DAO -> Softwarekomponente mit direktem Zugriff auf die Datenbank (DAO = Data Access Object).
+	Framework -> Fertiges Softwarekonstrukt, welches dem Anwendungsentwickler diverse Komponenten und Anwendungslogiken zur Verfügung stellt.
+	Frontend -> Im Gegensatz zum Backend ist das Frontend jener Teil der Applikation, der dem Benutzer zum Anzeigen von Daten und Kontrollstrukturen dient.
+	Managed Beans -> Softwarekomponenten, die als Schnittstelle zwischen Frontend und Backend agieren.
+	parsen -> Vorgang zum Einlesen und Aufbereiten von textuellen Daten anhand genau definierter Verarbeitungsmuster.

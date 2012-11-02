@@ -1,0 +1,18 @@
+Das Software-System 'Bundestagswahlen' sieht zur Umsetzung von Zugangsberechtigungen die folgenden vier 
+Benutzerrollen vor:
+	- Wahlberechtigter
+	- Einwohner 
+	- Akkreditierte Institutionen
+	- Bundeswahlleiter
+
+Das UseCase-Diagramm, dargestellt in Abbildung XX, erläutert die gewährleisteten Anwendungsfälle
+der jeweiligen Benutzerrollen. Somit hat ein 'Wahlberechtigter' die Möglichkeit eine
+Stimme zur Wahl abzugeben und nach den Wahlen die Wahlergebnisse anhand einer Basisauswertung
+einzusehen. Die Rolle 'Einwohner' umfasst alle Bürger ohne Wahlberechtigung. Diesen wird
+lediglich der Zugriff auf die angesprochene Basisauswertung gewährleistet. Einen Zugriff
+auf detailliertere und umfassendere Auswertungen erhalten Universitäten, Journalisten etc.
+über die Benutzerrolle 'Akkreditierte Institutionen'. Zu guter Letzt erhält der 'Bundeswahlleiter'
+die Berechtigung Stimmmengen anhand der Bulk-Import Funktionalität in das System einzuspielen.
+Zudem können im Falle einer Revision einzelne Stimmzuweisungen vom Bundeswahlleiter angepasst 
+werden.
+
