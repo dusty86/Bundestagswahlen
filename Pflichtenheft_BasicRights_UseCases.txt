@@ -15,4 +15,5 @@ auf detailliertere und umfassendere Auswertungen erhalten Universitäten, Journal
 die Berechtigung Stimmmengen anhand der Bulk-Import Funktionalität in das System einzuspielen.
 Zudem können im Falle einer Revision einzelne Stimmzuweisungen vom Bundeswahlleiter angepasst 
 werden.
+Des Weiteren erhält der Bundeswahlleiter alle Rechte, um die ursprünglichen Ausprägung der Datenbank vor der Wahl herzustellen. Insbesondere trägt er darüber die Wahlkreise, Direktkandidaten und Listenkandidaten in die Datenbank ein.
 
