@@ -42,13 +42,15 @@ CREATE TABLE `bundestagswahl` (
 
 /*Data for the table `bundestagswahl` */
 
+insert  into `bundestagswahl`(`jahr`,`legislatur`) values (2005,16),(2009,17),(2013,18);
+
 /*Table structure for table `erststimme` */
 
 DROP TABLE IF EXISTS `erststimme`;
 
 CREATE TABLE `erststimme` (
   `nr` int(11) NOT NULL AUTO_INCREMENT,
-  `gueltig` bit(1) NOT NULL,
+  `gueltig` tinyint(1) NOT NULL,
   `kandidat_fk` int(11) NOT NULL,
   `wahlkreis_nr_fk` int(11) NOT NULL,
   `wahlkreis_bundestagswahl_fk` int(11) NOT NULL,
@@ -56,9 +58,9 @@ CREATE TABLE `erststimme` (
   KEY `erst_wahlb_fk` (`wahlkreis_nr_fk`),
   KEY `erst_kand_fk` (`kandidat_fk`),
   KEY `erst_wahl_fk` (`wahlkreis_nr_fk`,`wahlkreis_bundestagswahl_fk`),
-  CONSTRAINT `erst_wahl_fk` FOREIGN KEY (`wahlkreis_nr_fk`, `wahlkreis_bundestagswahl_fk`) REFERENCES `wahlkreis` (`nr`, `bundestagswahl`),
-  CONSTRAINT `erst_kand_fk` FOREIGN KEY (`kandidat_fk`) REFERENCES `kandidat` (`nr`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `erst_kand_fk` FOREIGN KEY (`kandidat_fk`) REFERENCES `kandidat` (`nr`),
+  CONSTRAINT `erst_wahl_fk` FOREIGN KEY (`wahlkreis_nr_fk`, `wahlkreis_bundestagswahl_fk`) REFERENCES `wahlkreis` (`nr`, `bundestagswahl`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 /*Data for the table `erststimme` */
 
@@ -75,9 +77,11 @@ CREATE TABLE `kandidat` (
   PRIMARY KEY (`nr`),
   KEY `kand_part_fk` (`partei_fk`),
   CONSTRAINT `kand_part_fk` FOREIGN KEY (`partei_fk`) REFERENCES `partei` (`nr`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `kandidat` */
+
+insert  into `kandidat`(`nr`,`nachname`,`vorname`,`geburtsdatum`,`partei_fk`) values (1,'Merkel','Angela','1954-07-17',2);
 
 /*Table structure for table `kandidat_landesliste` */
 
@@ -90,8 +94,8 @@ CREATE TABLE `kandidat_landesliste` (
   `listenrang` int(11) NOT NULL,
   PRIMARY KEY (`landesliste_nr`,`landesliste_bundestagswahl`,`kandidat_nr`),
   KEY `kl_kandidat` (`kandidat_nr`),
-  CONSTRAINT `kl_land` FOREIGN KEY (`landesliste_nr`, `landesliste_bundestagswahl`) REFERENCES `landesliste` (`nr`, `bundestagswahl`),
-  CONSTRAINT `kl_kandidat` FOREIGN KEY (`kandidat_nr`) REFERENCES `kandidat` (`nr`)
+  CONSTRAINT `kl_kandidat` FOREIGN KEY (`kandidat_nr`) REFERENCES `kandidat` (`nr`),
+  CONSTRAINT `kl_land` FOREIGN KEY (`landesliste_nr`, `landesliste_bundestagswahl`) REFERENCES `landesliste` (`nr`, `bundestagswahl`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `kandidat_landesliste` */
@@ -106,8 +110,8 @@ CREATE TABLE `kandidat_wahlkreis` (
   `kandidat_nr` int(11) NOT NULL,
   PRIMARY KEY (`wahlkreis_nr`,`wahlkreis_bundestagswahl`,`kandidat_nr`),
   KEY `kw_kandidat` (`kandidat_nr`),
-  CONSTRAINT `kw_wahlkreis` FOREIGN KEY (`wahlkreis_nr`, `wahlkreis_bundestagswahl`) REFERENCES `wahlkreis` (`nr`, `bundestagswahl`),
-  CONSTRAINT `kw_kandidat` FOREIGN KEY (`kandidat_nr`) REFERENCES `kandidat` (`nr`)
+  CONSTRAINT `kw_kandidat` FOREIGN KEY (`kandidat_nr`) REFERENCES `kandidat` (`nr`),
+  CONSTRAINT `kw_wahlkreis` FOREIGN KEY (`wahlkreis_nr`, `wahlkreis_bundestagswahl`) REFERENCES `wahlkreis` (`nr`, `bundestagswahl`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `kandidat_wahlkreis` */
@@ -126,8 +130,8 @@ CREATE TABLE `landesliste` (
   KEY `land_part_fk` (`partei_fk`),
   KEY `land_bl_fk` (`bundesland_fk`),
   KEY `land_bund_fk` (`bundestagswahl`),
-  CONSTRAINT `land_bund_fk` FOREIGN KEY (`bundestagswahl`) REFERENCES `bundestagswahl` (`jahr`),
   CONSTRAINT `land_bl_fk` FOREIGN KEY (`bundesland_fk`) REFERENCES `bundesland` (`akronym`),
+  CONSTRAINT `land_bund_fk` FOREIGN KEY (`bundestagswahl`) REFERENCES `bundestagswahl` (`jahr`),
   CONSTRAINT `land_part_fk` FOREIGN KEY (`partei_fk`) REFERENCES `partei` (`nr`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -187,13 +191,15 @@ CREATE TABLE `wahlkreis` (
 
 /*Data for the table `wahlkreis` */
 
+insert  into `wahlkreis`(`nr`,`bundestagswahl`,`name`,`notizen`,`bundesland_fk`) values (1,2009,'Stade','Kaff','HH');
+
 /*Table structure for table `zweitstimme` */
 
 DROP TABLE IF EXISTS `zweitstimme`;
 
 CREATE TABLE `zweitstimme` (
   `nr` int(11) NOT NULL AUTO_INCREMENT,
-  `gueltig` bit(1) NOT NULL,
+  `gueltig` tinyint(1) NOT NULL,
   `landesliste_nr_fk` int(11) NOT NULL,
   `landesliste_bundestagswahl_fk` int(11) NOT NULL,
   `wahlkreis_nr_fk` int(11) NOT NULL,
