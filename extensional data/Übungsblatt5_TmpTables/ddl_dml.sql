@@ -13,3 +13,12 @@ SELECT erg1.kandidat_nr, erg1.nachname, erg1.vorname, erg1.partei_fk, erg1.wahlk
                          FROM tmp_wkerg erg2
                         WHERE erg2.wahlkreis_nr = erg1.wahlkreis_nr
                           AND erg2.wahljahr = erg1.wahljahr);
+						  
+
+ALTER TABLE `bundestagswahlen`.`tmp_wkerg`   
+  DROP PRIMARY KEY,
+  ADD PRIMARY KEY (`kandidat_nr`, `wahljahr`);
+						  
+ALTER TABLE `bundestagswahlen`.`tmp_direktkandidaten`   
+  DROP PRIMARY KEY,
+  ADD PRIMARY KEY (`wahlkreis_nr`, `wahljahr`);
