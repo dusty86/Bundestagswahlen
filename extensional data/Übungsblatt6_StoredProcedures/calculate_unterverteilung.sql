@@ -24,15 +24,7 @@ BEGIN
 	SELECT o.partei_fk, o.sitze
 	  FROM tmp_oberverteilung o 
 	 WHERE o.wahljahr = bundestagswahl;
-	 
-	# cursor for unterverteilung_punkte
-        DECLARE unterverteilung_punkteCursor CURSOR FOR	
-	SELECT tp.partei_fk, tp.bundesland_fk
-	  FROM tmp_unterverteilung_punkte tp
-	  WHERE tp.wahljahr = bundestagswahl
-	  ORDER BY tp.punkte DESC;
-	 
-	
+		
 	#delete content of temporary tables
 	DELETE FROM tmp_unterverteilung WHERE wahljahr = bundestagswahl;
 	DELETE FROM tmp_unterverteilung_punkte WHERE wahljahr = bundestagswahl;
@@ -52,6 +44,14 @@ BEGIN
 			SELECT bundesland_fk, stimmen 
 			  FROM tmp_landerg 
 			 WHERE partei_fk = partei AND wahljahr = bundestagswahl;
+			 
+			# cursor for unterverteilung_punkte
+			DECLARE unterverteilung_punkteCursor CURSOR FOR	
+			SELECT tp.partei_fk, tp.bundesland_fk
+			  FROM tmp_unterverteilung_punkte tp
+			 WHERE tp.wahljahr = bundestagswahl
+			   AND tp.partei_fk = partei
+			 ORDER BY tp.punkte DESC;
 		   
 			# open cursor landerg
 			OPEN landergCursor;
@@ -84,39 +84,38 @@ BEGIN
 			
 			# close cursor landerg	   
 			CLOSE landergCursor;
+			
+			
+			# reset counters
+			SET j = 0;
+			SET k = 0;			
+			
+			# calculate tmp_unterverteilung
+			# open cursor unterverteilung_punkte
+			OPEN unterverteilung_punkteCursor;        
+			
+			REPEAT # iterate over partei_stimmen entreies
+			
+			   FETCH unterverteilung_punkteCursor INTO partei, bundesland;
+			   
+			   UPDATE tmp_unterverteilung SET sitze = sitze + 1 WHERE partei_fk = partei AND bundesland_fk = bundesland AND wahljahr = bundestagswahl;
+			   
+			   SET j = j + 1;
+			   
+			UNTIL j = seats END REPEAT;  
+			
+			# close cursor unterverteilung_punkte
+			CLOSE unterverteilung_punkteCursor; 
 		
 		END NESTED_BLOCK;
            
            SET i = i + 1;
            
         UNTIL i = rowcount END REPEAT;
-        
-	# reset counters
-        SET j = 0;
-        SET i = 0;
-        SET k = 0;
 	
 	# close cursor oberverteilung
-        CLOSE oberverteilungCursor;    
-		
-        
-        # calculate tmp_unterverteilung
-	# open cursor unterverteilung_punkte
-        OPEN unterverteilung_punkteCursor;
-        
-        REPEAT # iterate over partei_stimmen entreies
-        
-	   FETCH unterverteilung_punkteCursor INTO partei, bundesland;
-	   
-	   UPDATE tmp_unterverteilung SET sitze = sitze + 1 WHERE partei_fk = partei AND bundesland_fk = bundesland AND wahljahr = bundestagswahl;
-	   
-	   SET j = j + 1;
-	   
-	UNTIL j = seats END REPEAT;  
-	
-	# close cursor unterverteilung_punkte
-        CLOSE unterverteilung_punkteCursor; 
-        
+        CLOSE oberverteilungCursor;   
+       
         # remove empty bundesländer from unterverteilung       
         DELETE FROM tmp_unterverteilung WHERE sitze = 0 AND wahljahr = bundestagswahl;
 	 
