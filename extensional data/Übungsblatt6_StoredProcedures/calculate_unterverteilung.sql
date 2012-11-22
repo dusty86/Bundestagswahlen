@@ -23,8 +23,7 @@ BEGIN
         DECLARE oberverteilungCursor CURSOR FOR	
 	SELECT o.partei_fk, o.sitze
 	  FROM tmp_oberverteilung o 
-	 WHERE o.wahljahr = bundestagswahl
-	   AND o.partei_fk != 'CSU/CDU';
+	 WHERE o.wahljahr = bundestagswahl;
 	 
 	# cursor for unterverteilung_punkte
         DECLARE unterverteilung_punkteCursor CURSOR FOR	
@@ -35,7 +34,7 @@ BEGIN
 	 
 	
 	#delete content of temporary tables
-	DELETE FROM tmp_unterverteilung2 WHERE wahljahr = bundestagswahl;
+	DELETE FROM tmp_unterverteilung WHERE wahljahr = bundestagswahl;
 	DELETE FROM tmp_unterverteilung_punkte WHERE wahljahr = bundestagswahl;
         
         # open cursor oberverteilung
@@ -68,7 +67,7 @@ BEGIN
 				SET j = 0;
 				   
 				# insert start tmp_unterverteilung entry
-				INSERT INTO tmp_unterverteilung2 VALUES (partei, bundesland, 0, bundestagswahl);
+				INSERT INTO tmp_unterverteilung VALUES (partei, bundesland, 0, bundestagswahl);
 				   
 				REPEAT # calculate tmp_unterverteilung_punkte by iterating over amount of seats
 									
@@ -109,7 +108,7 @@ BEGIN
         
 	   FETCH unterverteilung_punkteCursor INTO partei, bundesland;
 	   
-	   UPDATE tmp_unterverteilung2 SET sitze = sitze + 1 WHERE partei_fk = partei AND bundesland_fk = bundesland AND wahljahr = bundestagswahl;
+	   UPDATE tmp_unterverteilung SET sitze = sitze + 1 WHERE partei_fk = partei AND bundesland_fk = bundesland AND wahljahr = bundestagswahl;
 	   
 	   SET j = j + 1;
 	   
@@ -119,7 +118,7 @@ BEGIN
         CLOSE unterverteilung_punkteCursor; 
         
         # remove empty bundesländer from unterverteilung       
-        DELETE FROM tmp_unterverteilung2 WHERE sitze = 0 AND wahljahr = bundestagswahl;
+        DELETE FROM tmp_unterverteilung WHERE sitze = 0 AND wahljahr = bundestagswahl;
 	 
     END$$
 
